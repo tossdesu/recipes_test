@@ -1,7 +1,8 @@
-package com.tossdesu.recipestest
+package com.tossdesu.recipestest.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.tossdesu.recipestest.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
