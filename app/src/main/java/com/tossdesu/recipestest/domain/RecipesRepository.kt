@@ -5,8 +5,8 @@ import com.tossdesu.recipestest.domain.entity.Recipe
 interface RecipesRepository {
 
     /**
-     * Execute all recipes downloading request
-     * @return list of recipes
+     * Execute recipes downloading request
+     * @return list of Recipe objects
      */
     fun getRecipesUseCase(): List<Recipe>
 }
