@@ -1,6 +1,8 @@
 package com.tossdesu.recipestest.di
 
+import android.app.Application
 import com.tossdesu.recipestest.presentation.MainActivity
+import dagger.BindsInstance
 import dagger.Component
 
 @ApplicationScope
@@ -13,4 +15,12 @@ import dagger.Component
 interface ApplicationComponent {
 
     fun inject(activity: MainActivity)
+
+    @Component.Factory
+    interface Factory {
+
+        fun create(
+            @BindsInstance application: Application
+        ): ApplicationComponent
+    }
 }

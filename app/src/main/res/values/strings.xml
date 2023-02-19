@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">RecipesTest</string>
-    <string name="no_internet_connection">Проверьте соединение с интернетом.</string>
+    <string name="no_internet_connection_page">Проверьте соединение с интернетом.</string>
+    <string name="no_internet_connection_snackbar">Старые данные. Проверьте соединение с интернетом.</string>
     <string name="button_reload">Обновить</string>
 </resources>

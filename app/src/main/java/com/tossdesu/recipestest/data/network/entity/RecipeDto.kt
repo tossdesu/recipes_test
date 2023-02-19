@@ -12,7 +12,7 @@ import com.tossdesu.recipestest.domain.entity.Recipe
  *   "name": "",
  *   "headline": "",
  *   "description": "",
- *   "country": "" or Null,
+ *   "country": "",
  *   "difficulty": 0,
  *   "time": "",
  *   "calories": "",
@@ -26,18 +26,18 @@ import com.tossdesu.recipestest.domain.entity.Recipe
  */
 data class RecipeDto(
     val id: String,
-    val name: String,
-    val headline: String,
-    val description: String,
+    val name: String? = null,
+    val headline: String? = null,
+    val description: String? = null,
     val country: String? = null,
-    val difficulty: Int,
-    val time: String,
-    val calories: String,
-    val carbos: String,
-    val fats: String,
-    val proteins: String,
-    val image: String,
-    val thumb: String
+    val difficulty: Int? = null,
+    val time: String? = null,
+    val calories: String? = null,
+    val carbos: String? = null,
+    val fats: String? = null,
+    val proteins: String? = null,
+    val image: String? = null,
+    val thumb: String? = null
 ) {
 
     /**
@@ -45,17 +45,17 @@ data class RecipeDto(
      */
     fun toRecipe(): Recipe = Recipe(
         id = id,
-        name = name,
-        headline = headline,
-        description = description,
+        name = name ?: "",
+        headline = headline ?: "",
+        description = description ?: "",
         country = country ?: "",
-        difficulty = difficulty,
-        time = getTime(time),
-        calories = getInt(calories),
-        carbos = getInt(carbos),
-        fats = getInt(fats),
-        proteins = getInt(proteins),
-        image = image
+        difficulty = difficulty ?: 0,
+        time = getTime(time ?: ""),
+        calories = getInt(calories ?: ""),
+        carbos = getInt(carbos ?: ""),
+        fats = getInt(fats ?: ""),
+        proteins = getInt(proteins ?: ""),
+        image = image ?: ""
     )
 
     private fun getInt(str: String): Int {

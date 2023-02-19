@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
         initAdapter()
         observeViewModel()
-
         binding.btnReload.setOnClickListener {
             viewModel.getRecipes()
         }
@@ -49,30 +48,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.uiState.observe(this) { uiState ->
+        viewModel.uiState.observe(this) {
             with(binding) {
                 progressBar.visibility = View.GONE
-                noConnection.visibility = View.GONE
-                when (uiState) {
+                noConnectionMessage.visibility = View.GONE
+                when (it) {
                     is Resource.Loading -> {
                         progressBar.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
                         rvRecipes.visibility = View.VISIBLE
-                        recipeAdapter.submitList(uiState.data)
+                        recipeAdapter.submitList(it.data)
                     }
                     is Resource.NetworkError -> {
-                        rvRecipes.visibility = View.GONE
-                        noConnection.visibility = View.VISIBLE
+                        if (it.isCacheExists) {
+                            val message = resources.getText(R.string.no_internet_connection_snackbar)
+                            showErrorMessage(message.toString())
+                        } else {
+                            rvRecipes.visibility = View.GONE
+                            noConnectionMessage.visibility = View.VISIBLE
+                        }
                     }
                     is Resource.GenericError -> {
-                        Snackbar.make(binding.root, uiState.message, Snackbar.LENGTH_INDEFINITE)
-                            .setAction(resources.getText(R.string.button_reload)) {
-                                viewModel.getRecipes()
-                            }.show()
+                        showErrorMessage(it.message)
                     }
                 }
             }
         }
+    }
+
+    private fun showErrorMessage(message: String) {
+        Snackbar.make(
+            binding.root,
+            message,
+            Snackbar.LENGTH_INDEFINITE
+        )
+            .setAction(resources.getText(R.string.button_reload)) {
+                viewModel.getRecipes()
+            }.show()
     }
 }

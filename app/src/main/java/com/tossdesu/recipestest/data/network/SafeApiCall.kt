@@ -10,12 +10,11 @@ import javax.inject.Inject
 /**
  * Wrapping class for handling exceptions coming from
  * Retrofit and Moshi when execute api request.
- * @return
+ * @return Success|GenericError|NetworkError object of [Resource] sealed class
  */
 class SafeApiCall @Inject constructor() {
 
     suspend fun <T> run(block: suspend () -> T): Resource<T> {
-        // Returning api response wrapped in Resource class
         return try {
             // calling api lambda
             Resource.Success(block())
@@ -23,9 +22,8 @@ class SafeApiCall @Inject constructor() {
             when(e) {
                 // moshi
                 is JsonDataException, is JsonEncodingException -> {
-
                     Resource.GenericError(
-                        "При работе с полученными данными произошла ошибка.\n ${e.message}"
+                        "При работе с полученными данными произошла ошибка."
                     )
                 }
                 // retrofit
@@ -36,12 +34,12 @@ class SafeApiCall @Inject constructor() {
                 }
                 // network connection
                 is IOException -> {
-                    Resource.NetworkError
+                    Resource.NetworkError(false)
                 }
                 // unknown error
                 else -> {
                     Resource.GenericError(
-                        "Что-то пошло не так.\n ${e.message}"
+                        "${e.message}"
                     )
                 }
             }

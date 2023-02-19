@@ -6,7 +6,23 @@ interface RecipesRepository {
 
     /**
      * Execute recipes downloading request
-     * @return Object of Resource class with list of Recipe or Exception
+     * @return Success|GenericError|NetworkError object of [Resource] sealed class
      */
-    suspend fun getRecipesUseCase(): Resource<List<Recipe>>
+    suspend fun getRecipesFromNetworkUseCase(): Resource<List<Recipe>>
+
+    /**
+     * Put list of [Recipe] objects into DB
+     */
+    suspend fun saveRecipesUseCase(recipes: List<Recipe>)
+
+    /**
+     * Delete all recipes from DB
+     */
+    suspend fun deleteRecipesUseCase()
+
+    /**
+     * Get all recipes from DB
+     * @return list of [Recipe] objects
+     */
+    suspend fun getRecipesFromDbUseCase(): List<Recipe>
 }

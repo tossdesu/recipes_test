@@ -7,6 +7,7 @@ import com.tossdesu.recipestest.di.DaggerApplicationComponent
 class RecipeApp : Application() {
 
     val component: ApplicationComponent by lazy {
-        DaggerApplicationComponent.create()
+        DaggerApplicationComponent.factory()
+            .create(this)
     }
 }
