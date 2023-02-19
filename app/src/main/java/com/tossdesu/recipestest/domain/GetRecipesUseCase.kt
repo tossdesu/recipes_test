@@ -7,7 +7,7 @@ class GetRecipesUseCase @Inject constructor(
     private val repository: RecipesRepository
 ) {
 
-    operator fun invoke(): List<Recipe> {
+    suspend operator fun invoke(): Resource<List<Recipe>> {
         return repository.getRecipesUseCase()
     }
 }

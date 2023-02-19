@@ -6,7 +6,7 @@ interface RecipesRepository {
 
     /**
      * Execute recipes downloading request
-     * @return list of Recipe objects
+     * @return Object of Resource class with list of Recipe or Exception
      */
-    fun getRecipesUseCase(): List<Recipe>
+    suspend fun getRecipesUseCase(): Resource<List<Recipe>>
 }

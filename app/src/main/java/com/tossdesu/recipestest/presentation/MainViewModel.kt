@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tossdesu.recipestest.domain.GetRecipesUseCase
+import com.tossdesu.recipestest.domain.Resource
+import com.tossdesu.recipestest.domain.entity.Recipe
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,18 +14,18 @@ class MainViewModel @Inject constructor(
     private val getRecipesUseCase: GetRecipesUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData<MainUiState>()
-    val uiState: LiveData<MainUiState>
+    private val _uiState = MutableLiveData<Resource<List<Recipe>>>()
+    val uiState: LiveData<Resource<List<Recipe>>>
         get() = _uiState
 
     init {
-        _uiState.value = MainUiState.Loading
+        getRecipes()
     }
 
     fun getRecipes() {
+        _uiState.value = Resource.Loading
         viewModelScope.launch {
-            val recipes = getRecipesUseCase()
-            _uiState.value = MainUiState.Success(recipes)
+            _uiState.value = getRecipesUseCase()
         }
     }
 }
